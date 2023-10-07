@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "Hash": "pLyqgDDuzH62TxFwvXNE0M8CYaNyMT5/ry51hmpXB/k=",
+  "Source": "eSya.ManageInventory.WebAPI",
+  "BasePath": "_content/eSya.ManageInventory.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "eSya.ManageInventory.WebAPI\\wwwroot",
+      "Source": "eSya.ManageInventory.WebAPI",
+      "ContentRoot": "D:\\Projects\\eSyaProjects2022\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\wwwroot\\",
+      "BasePath": "_content/eSya.ManageInventory.WebAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\Projects\\eSyaProjects2022\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\wwwroot\\Resources\\ar-EG.json",
+      "SourceId": "eSya.ManageInventory.WebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\eSyaProjects2022\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\wwwroot\\",
+      "BasePath": "_content/eSya.ManageInventory.WebAPI",
+      "RelativePath": "Resources/ar-EG.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Resources\\ar-EG.json"
+    },
+    {
+      "Identity": "D:\\Projects\\eSyaProjects2022\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\wwwroot\\Resources\\en-US.json",
+      "SourceId": "eSya.ManageInventory.WebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\eSyaProjects2022\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\eSya.ManageInventory.WebAPI\\wwwroot\\",
+      "BasePath": "_content/eSya.ManageInventory.WebAPI",
+      "RelativePath": "Resources/en-US.json",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Resources\\en-US.json"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "eSya.ManageInventory.IF/1.0.0": {
+        "dependencies": {
+          "eSya.ManageInventory.DO": "1.0.0"
+        },
+        "runtime": {
+          "eSya.ManageInventory.IF.dll": {}
+        }
+      },
+      "eSya.ManageInventory.DO/1.0.0": {
+        "runtime": {
+          "eSya.ManageInventory.DO.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "eSya.ManageInventory.IF/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "eSya.ManageInventory.DO/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
