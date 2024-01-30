@@ -28,3 +28,4 @@ D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.IF
 D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.IF\eSya.ManageInventory.IF\obj\Debug\net6.0\refint\eSya.ManageInventory.IF.dll
 D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.IF\eSya.ManageInventory.IF\obj\Debug\net6.0\eSya.ManageInventory.IF.pdb
 D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.IF\eSya.ManageInventory.IF\obj\Debug\net6.0\ref\eSya.ManageInventory.IF.dll
+D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.IF\eSya.ManageInventory.IF\obj\Debug\net6.0\eSya.ManageInventory.IF.sourcelink.json

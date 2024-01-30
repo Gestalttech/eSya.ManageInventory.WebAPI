@@ -556,3 +556,4 @@ D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.We
 D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\obj\Debug\net6.0\eSya.ManageInventory.WebAPI.pdb
 D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\obj\Debug\net6.0\eSya.ManageInventory.WebAPI.genruntimeconfig.cache
 D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\obj\Debug\net6.0\ref\eSya.ManageInventory.WebAPI.dll
+D:\Projects\eSyaProjects2022\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\eSya.ManageInventory.WebAPI\obj\Debug\net6.0\eSya.ManageInventory.WebAPI.sourcelink.json

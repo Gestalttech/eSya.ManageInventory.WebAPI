@@ -51,6 +51,7 @@ builder.Services.AddLocalization();
 
 builder.Services.AddScoped<ICommonRepository, CommonRepository>();
 builder.Services.AddScoped<IItemCodesRepository, ItemCodesRepository>();
+builder.Services.AddScoped<IInventoryRulesRepository, InventoryRulesRepository>();
 
 
 builder.Services.AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
