@@ -54,15 +54,6 @@ namespace eSya.ManageInventory.WebAPI.Controllers
             return Ok(ds);
         }
 
-       
-        /// <summary>
-        /// Getting  Unit of Measure.
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> GetUnitofMeasure()
-        {
-            var ds = await _commonRepository.GetUnitofMeasure();
-            return Ok(ds);
-        }
+      
     }
 }

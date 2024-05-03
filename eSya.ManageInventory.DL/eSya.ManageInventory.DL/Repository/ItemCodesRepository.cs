@@ -275,7 +275,7 @@ namespace eSya.ManageInventory.DL.Repository
                         GtEiitcd is_itemDescExists = db.GtEiitcds.FirstOrDefault(u => u.ItemDescription.ToUpper().Replace(" ", "") == itemCodes.ItemDescription.ToUpper().Replace(" ", ""));
                         if (is_itemDescExists != null)
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0139", Message = string.Format(_localizer[name: "W0139"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0127", Message = string.Format(_localizer[name: "W0127"]) };
                         }
 
                         int _itemCode = db.GtEiitcds.Select(c => c.ItemCode).DefaultIfEmpty().Max();
@@ -371,7 +371,7 @@ namespace eSya.ManageInventory.DL.Repository
                         GtEiitcd is_ItemExists = db.GtEiitcds.FirstOrDefault(be => be.ItemDescription.ToUpper().Replace(" ", "") == itemCodes.ItemDescription.ToUpper().Replace(" ", "") && be.ItemCode != itemCodes.ItemCode);
                         if (is_ItemExists != null)
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0139", Message = string.Format(_localizer[name: "W0139"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0127", Message = string.Format(_localizer[name: "W0127"]) };
 
                         }
 
@@ -449,7 +449,7 @@ namespace eSya.ManageInventory.DL.Repository
                         }
                         else
                         {
-                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0140", Message = string.Format(_localizer[name: "W0140"]) };
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0128", Message = string.Format(_localizer[name: "W0128"]) };
 
                         }
                     }

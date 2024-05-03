@@ -1,8 +1,7 @@
 {
-  "W0139": "Item Description already Exist",
-  "W0140": "Item is not exist",
-  "W0137": "The combination of Unit of Measurement Purchase  and Unit of Measurement Stock already Exist",
-  "W0138": "Unit of Measure is not Exist",
+  "W0127": "Item Description already Exist",
+  "W0128": "Item is not exist",
+
   "S0001": "Saved Sucessfully",
   "S0002": "Updated Sucessfully",
   "S0003": "Activated Successfully",
