@@ -10,6 +10,7 @@ namespace eSya.ManageInventory.IF
     public interface ICommonRepository
     {
         Task<List<DO_ApplicationCodes>> GetApplicationCodesByCodeType(int codeType);
+        Task<List<DO_UnitofMeasure>> GetUnitofMeasure();
         Task<List<DO_ItemGroup>> GetItemGroup();
         Task<List<DO_ItemCategory>> GetItemCategory(int ItemGroup);
         Task<List<DO_ItemSubCategory>> GetItemSubCategory(int ItemCategory);

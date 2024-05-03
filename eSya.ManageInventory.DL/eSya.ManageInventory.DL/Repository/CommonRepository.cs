@@ -109,5 +109,27 @@ namespace eSya.ManageInventory.DL.Repository
                 throw ex;
             }
         }
+        public async Task<List<DO_UnitofMeasure>> GetUnitofMeasure()
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var ds = db.GtEciuoms
+                        .Where(w => w.ActiveStatus)
+                        .Select(r => new DO_UnitofMeasure
+                        {
+                            UnitOfMeasure = r.UnitOfMeasure,
+                            Uompdesc = r.Uompdesc
+                        }).OrderBy(o => o.Uompdesc).ToListAsync();
+
+                    return await ds;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

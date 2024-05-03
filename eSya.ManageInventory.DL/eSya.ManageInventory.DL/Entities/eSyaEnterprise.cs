@@ -19,6 +19,7 @@ namespace eSya.ManageInventory.DL.Entities
         }
 
         public virtual DbSet<GtEcapcd> GtEcapcds { get; set; } = null!;
+        public virtual DbSet<GtEciuom> GtEciuoms { get; set; } = null!;
         public virtual DbSet<GtEiitcd> GtEiitcds { get; set; } = null!;
         public virtual DbSet<GtEiitct> GtEiitcts { get; set; } = null!;
         public virtual DbSet<GtEiitgc> GtEiitgcs { get; set; } = null!;
@@ -63,6 +64,48 @@ namespace eSya.ManageInventory.DL.Entities
                 entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
 
                 entity.Property(e => e.ShortCode).HasMaxLength(15);
+            });
+
+            modelBuilder.Entity<GtEciuom>(entity =>
+            {
+                entity.HasKey(e => e.UnitOfMeasure);
+
+                entity.ToTable("GT_ECIUOM");
+
+                entity.Property(e => e.UnitOfMeasure).ValueGeneratedNever();
+
+                entity.Property(e => e.ConversionFactor).HasColumnType("numeric(12, 5)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.Uompdesc)
+                    .HasMaxLength(50)
+                    .HasColumnName("UOMPDesc");
+
+                entity.Property(e => e.Uompurchase)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("UOMPurchase");
+
+                entity.Property(e => e.Uomsdesc)
+                    .HasMaxLength(50)
+                    .HasColumnName("UOMSDesc");
+
+                entity.Property(e => e.Uomstock)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("UOMStock");
             });
 
             modelBuilder.Entity<GtEiitcd>(entity =>
