@@ -113,17 +113,25 @@ namespace eSya.ManageInventory.DL.Repository
         {
             try
             {
-                using (var db = new eSyaEnterprise())
+                using (eSyaEnterprise db = new eSyaEnterprise())
                 {
-                    var ds = db.GtEciuoms
-                        .Where(w => w.ActiveStatus)
-                        .Select(r => new DO_UnitofMeasure
-                        {
-                            UnitOfMeasure = r.UnitOfMeasure,
-                            Uompdesc = r.Uompdesc
-                        }).OrderBy(o => o.Uompdesc).ToListAsync();
-
-                    return await ds;
+                    var ds = db.GtEciuoms.Join
+                    (db.GtEcapcds,
+                    um => new { um.Uompurchase },
+                    up => new { Uompurchase = up.ApplicationCode },
+                    (um, up) => new { um, up }).
+                    Join(db.GtEcapcds,
+                    ums => new { ums.um.Uomstock },
+                    us => new { Uomstock = us.ApplicationCode },
+                    (ums, us) => new { ums, us })
+                   .Where(x=>x.ums.um.ActiveStatus)
+               .Select(r => new DO_UnitofMeasure
+               {
+                   UnitOfMeasure = r.ums.um.UnitOfMeasure,
+                   UnitOfMeasureDesc = r.ums.up.CodeDesc+'-'+ r.us.CodeDesc,
+                   ConversionFactor = r.ums.um.ConversionFactor,
+               }).ToListAsync();
+                  return await ds;
                 }
             }
             catch (Exception ex)

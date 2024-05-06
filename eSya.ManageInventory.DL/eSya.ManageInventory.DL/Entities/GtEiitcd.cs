@@ -16,7 +16,6 @@ namespace eSya.ManageInventory.DL.Entities
         public int ItemSubCategory { get; set; }
         public string ItemDescription { get; set; } = null!;
         public int UnitOfMeasure { get; set; }
-        public int PackUnit { get; set; }
         public int PackSize { get; set; }
         public string InventoryClass { get; set; } = null!;
         public string ItemClass { get; set; } = null!;

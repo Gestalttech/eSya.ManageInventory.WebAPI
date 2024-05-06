@@ -49,30 +49,28 @@ namespace eSya.ManageInventory.DL.Repository
                     var result = await db.GtEiitcds.Join(db.GtEskucds,
                         x => x.ItemCode,
                         y => y.Skucode,
-                        (x, y) => new { x, y }).Join(db.GtEcapcds,
-                        a => a.x.PackUnit,
-                        p => p.ApplicationCode, (a, p) => new { a, p })
+                        (x, y) => new { x, y })
                         .Select(r => new DO_ItemCodes
                         {
-                            Skuid = r.a.y.Skuid,
-                            ItemGroup = r.a.x.ItemGroup,
-                            ItemCategory = r.a.x.ItemCategory,
-                            ItemSubCategory = r.a.x.ItemSubCategory,
-                            Skutype = r.a.y.Skutype,
-                            ItemCode = r.a.x.ItemCode,
-                            ItemDescription = r.a.x.ItemDescription,
-                            UnitOfMeasure = r.a.x.UnitOfMeasure,
-                            PackUnit = r.a.x.PackUnit,
-                            PackUnitDesc = r.p.CodeDesc,
-                            PackSize = r.a.x.PackSize,
-                            InventoryClass = r.a.x.InventoryClass,
-                            ItemClass = r.a.x.ItemClass,
-                            ItemSource = r.a.x.ItemSource,
-                            ItemCriticality = r.a.x.ItemCriticality,
-                            BarCodeID = r.a.x.BarcodeCodeId,
-                            UsageStatus = r.a.x.UsageStatus,
-                            ActiveStatus = r.a.x.ActiveStatus,
-                            Skucode = r.a.y.Skucode
+                            Skuid = r.y.Skuid,
+                            ItemGroup = r.x.ItemGroup,
+                            ItemCategory = r.x.ItemCategory,
+                            ItemSubCategory = r.x.ItemSubCategory,
+                            Skutype = r.y.Skutype,
+                            ItemCode = r.x.ItemCode,
+                            ItemDescription = r.x.ItemDescription,
+                            UnitOfMeasure = r.x.UnitOfMeasure,
+                            //PackUnit = r.x.PackUnit,
+                            //PackUnitDesc = r.p.CodeDesc,
+                            PackSize = r.x.PackSize,
+                            InventoryClass = r.x.InventoryClass,
+                            ItemClass = r.x.ItemClass,
+                            ItemSource = r.x.ItemSource,
+                            ItemCriticality = r.x.ItemCriticality,
+                            BarCodeID = r.x.BarcodeCodeId,
+                            UsageStatus = r.x.UsageStatus,
+                            ActiveStatus = r.x.ActiveStatus,
+                            Skucode = r.y.Skucode
 
                         }).ToListAsync();
                     foreach (var obj in result)
@@ -148,30 +146,28 @@ namespace eSya.ManageInventory.DL.Repository
                     var result = await db.GtEiitcds.Join(db.GtEskucds,
                          x => x.ItemCode,
                          y => y.Skucode,
-                         (x, y) => new { x, y }).Join(db.GtEcapcds,
-                         a => a.x.PackUnit,
-                         p => p.ApplicationCode, (a, p) => new { a, p })
+                         (x, y) => new { x, y })
                          .Select(r => new DO_ItemCodes
                          {
-                             Skuid = r.a.y.Skuid,
-                             ItemGroup = r.a.x.ItemGroup,
-                             ItemCategory = r.a.x.ItemCategory,
-                             ItemSubCategory = r.a.x.ItemSubCategory,
-                             Skutype = r.a.y.Skutype,
-                             ItemCode = r.a.x.ItemCode,
-                             ItemDescription = r.a.x.ItemDescription,
-                             UnitOfMeasure = r.a.x.UnitOfMeasure,
-                             PackUnit = r.a.x.PackUnit,
-                             PackUnitDesc = r.p.CodeDesc,
-                             PackSize = r.a.x.PackSize,
-                             InventoryClass = r.a.x.InventoryClass,
-                             ItemClass = r.a.x.ItemClass,
-                             ItemSource = r.a.x.ItemSource,
-                             ItemCriticality = r.a.x.ItemCriticality,
-                             BarCodeID = r.a.x.BarcodeCodeId,
-                             UsageStatus = r.a.x.UsageStatus,
-                             ActiveStatus = r.a.x.ActiveStatus,
-                             Skucode = r.a.y.Skucode
+                             Skuid = r.y.Skuid,
+                             ItemGroup = r.x.ItemGroup,
+                             ItemCategory = r.x.ItemCategory,
+                             ItemSubCategory = r.x.ItemSubCategory,
+                             Skutype = r.y.Skutype,
+                             ItemCode = r.x.ItemCode,
+                             ItemDescription = r.x.ItemDescription,
+                             UnitOfMeasure = r.x.UnitOfMeasure,
+                             //PackUnit = r.a.x.PackUnit,
+                             //PackUnitDesc = r.p.CodeDesc,
+                             PackSize = r.x.PackSize,
+                             InventoryClass = r.x.InventoryClass,
+                             ItemClass = r.x.ItemClass,
+                             ItemSource = r.x.ItemSource,
+                             ItemCriticality = r.x.ItemCriticality,
+                             BarCodeID = r.x.BarcodeCodeId,
+                             UsageStatus = r.x.UsageStatus,
+                             ActiveStatus = r.x.ActiveStatus,
+                             Skucode = r.y.Skucode
 
                          }).ToListAsync();
                     foreach (var obj in result)
@@ -289,7 +285,7 @@ namespace eSya.ManageInventory.DL.Repository
                             ItemSubCategory = itemCodes.ItemSubCategory,
                             ItemDescription = itemCodes.ItemDescription,
                             UnitOfMeasure = itemCodes.UnitOfMeasure,
-                            PackUnit = itemCodes.PackUnit,
+                            //PackUnit = itemCodes.PackUnit,
                             PackSize = itemCodes.PackSize,
                             InventoryClass = itemCodes.InventoryClass,
                             ItemClass = itemCodes.ItemClass,
@@ -343,6 +339,13 @@ namespace eSya.ManageInventory.DL.Repository
                         };
                         db.GtEskucds.Add(sku_Entity);
                         await db.SaveChangesAsync();
+
+                        GtEciuom um = db.GtEciuoms.FirstOrDefault(be => be.UnitOfMeasure == itemCodes.UnitOfMeasure);
+                        if (um != null)
+                        {
+                            um.UsageStatus = true;
+                        }
+                        await db.SaveChangesAsync();
                         dbContext.Commit();
                         return new DO_ReturnParameter() { Status = true, StatusCode = "S0001", Message = string.Format(_localizer[name: "S0001"]) };
                     }
@@ -376,6 +379,19 @@ namespace eSya.ManageInventory.DL.Repository
                         }
 
                         GtEiitcd b_Entity = db.GtEiitcds.Where(be => be.ItemCode == itemCodes.ItemCode).FirstOrDefault();
+                        
+                        var ums = db.GtEiitcds.Where(be => be.ItemCode == itemCodes.ItemCode).ToList();
+                        foreach (var u in ums)
+                        {
+                            GtEciuom uExist = db.GtEciuoms.FirstOrDefault(be => be.UnitOfMeasure == u.UnitOfMeasure);
+                            if (uExist != null)
+                            {
+                                uExist.UsageStatus = false;
+                            }
+
+                        }
+                        await db.SaveChangesAsync();
+                        
                         if (b_Entity != null)
                         {
                             b_Entity.ItemGroup = itemCodes.ItemGroup;
@@ -383,7 +399,7 @@ namespace eSya.ManageInventory.DL.Repository
                             b_Entity.ItemSubCategory = itemCodes.ItemSubCategory;
                             b_Entity.ItemDescription = itemCodes.ItemDescription;
                             b_Entity.UnitOfMeasure = itemCodes.UnitOfMeasure;
-                            b_Entity.PackUnit = itemCodes.PackUnit;
+                            //b_Entity.PackUnit = itemCodes.PackUnit;
                             b_Entity.PackSize = itemCodes.PackSize;
                             b_Entity.InventoryClass = itemCodes.InventoryClass;
                             b_Entity.ItemClass = itemCodes.ItemClass;
@@ -440,6 +456,13 @@ namespace eSya.ManageInventory.DL.Repository
                                 _sku.ModifiedBy = itemCodes.UserID;
                                 _sku.ModifiedOn = System.DateTime.Now;
                                 _sku.ModifiedTerminal = itemCodes.TerminalID;
+                            }
+                            await db.SaveChangesAsync();
+
+                            GtEciuom um = db.GtEciuoms.FirstOrDefault(be => be.UnitOfMeasure == itemCodes.UnitOfMeasure);
+                            if (um != null)
+                            {
+                                um.UsageStatus = true;
                             }
                             await db.SaveChangesAsync();
 

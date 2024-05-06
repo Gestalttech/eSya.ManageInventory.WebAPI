@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eSya.ManageInventory.WebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+acb73e7ab2edddc80d3b32a324238c7d61c78661")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac22368dac46b78b722dddbb58b97f8821540f45")]
 [assembly: System.Reflection.AssemblyProductAttribute("eSya.ManageInventory.WebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eSya.ManageInventory.WebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
