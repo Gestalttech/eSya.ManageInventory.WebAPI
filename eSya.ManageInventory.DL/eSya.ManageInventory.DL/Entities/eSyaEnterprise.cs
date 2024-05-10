@@ -25,6 +25,7 @@ namespace eSya.ManageInventory.DL.Entities
         public virtual DbSet<GtEiitgc> GtEiitgcs { get; set; } = null!;
         public virtual DbSet<GtEiitgr> GtEiitgrs { get; set; } = null!;
         public virtual DbSet<GtEiitsc> GtEiitscs { get; set; } = null!;
+        public virtual DbSet<GtEiitst> GtEiitsts { get; set; } = null!;
         public virtual DbSet<GtEipait> GtEipaits { get; set; } = null!;
         public virtual DbSet<GtEskucd> GtEskucds { get; set; } = null!;
 
@@ -256,6 +257,26 @@ namespace eSya.ManageInventory.DL.Entities
                     .HasForeignKey(d => d.ItemCategory)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GT_EIITSC_GT_EIITCT");
+            });
+
+            modelBuilder.Entity<GtEiitst>(entity =>
+            {
+                entity.HasKey(e => new { e.BusinessKey, e.ItemCode, e.StoreCode });
+
+                entity.ToTable("GT_EIITST");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
             });
 
             modelBuilder.Entity<GtEipait>(entity =>
