@@ -362,7 +362,6 @@ namespace eSya.ManageInventory.DL.Repository
                 }
             }
         }
-
         public async Task<DO_ReturnParameter> UpdateItemCodes(DO_ItemCodes itemCodes)
         {
             using (var db = new eSyaEnterprise())
@@ -489,5 +488,145 @@ namespace eSya.ManageInventory.DL.Repository
                 }
             }
         }
+
+        #region Business Item Store Link
+        public async Task<List<DO_ItemStoreLink>> GetBusinessItemStoreLink(int BusinessKey, int ItemCode)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+
+                    var st = db.GtEcstrms.Join(
+                        db.GtEastbls.Where(w => w.ActiveStatus && w.BusinessKey == BusinessKey),
+                        s => Convert.ToInt32( s.StoreCode.ToString() + "" + s.StoreType.ToString()),
+                        p => p.StoreCode,
+                        (s, p) => new { s, p })
+                        .Select(r => new
+                        {
+                            r.p.StoreCode,
+                            r.s.StoreDesc,
+                        });
+
+                    var result = await st
+                   .GroupJoin(db.GtEiitsts.Where(w => w.BusinessKey == BusinessKey && w.ItemCode == ItemCode),
+                    s => s.StoreCode,
+                    f => f.StoreCode,
+                    (s, f) => new { s, f })
+                   .SelectMany(z => z.f.DefaultIfEmpty(),
+                    (a, b) => new DO_ItemStoreLink
+                    {
+                        BusinessKey = BusinessKey,
+                        ItemCode = ItemCode,
+                        StoreCode = a.s.StoreCode,
+                        StoreDesc = a.s.StoreDesc,
+                        ActiveStatus = b == null ? false : b.ActiveStatus
+                    }).ToListAsync();
+                    var Distinctstores = result.GroupBy(x => x.StoreCode).Select(y => y.First());
+                    return Distinctstores.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<DO_StoreBusinessLink>> GetPortfolioStoreInfo(int BusinessKey, int StoreCode)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var ds = await db.GtEcspfms.Where(x => x.ActiveStatus)
+                        .Select(r => new DO_StoreBusinessLink
+                        {
+                            PortfolioId = r.PortfolioId,
+                            PortfolioDesc = r.PortfolioDesc,
+                            ActiveStatus = false,
+                        }).ToListAsync();
+
+                    foreach (var obj in ds)
+                    {
+                        GtEcstpf pf = db.GtEcstpfs.Where(x => x.BusinessKey == BusinessKey && x.StoreCode == StoreCode && x.PortfolioId == obj.PortfolioId).FirstOrDefault();
+                        if (pf != null)
+                        {
+                            obj.ActiveStatus = pf.ActiveStatus;
+                        }
+                        else
+                        {
+                            obj.ActiveStatus = false;
+
+                        }
+                    }
+
+                    return ds;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<DO_ReturnParameter> InsertOrUpdateBusinessItemStoreLink(List<DO_ItemStoreLink> obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var is_ItemStoreLink = obj.Where(w => !String.IsNullOrEmpty(w.StoreCode.ToString())).Count();
+                        if (is_ItemStoreLink <= 0)
+                        {
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0073", Message = string.Format(_localizer[name: "W0073"]) };
+                        }
+
+                        foreach (var sd in obj.Where(w => !String.IsNullOrEmpty(w.StoreCode.ToString())))
+                        {
+                            GtEiitst is_lk = db.GtEiitsts.Where(x => x.BusinessKey == sd.BusinessKey
+                                            && x.ItemCode == sd.ItemCode && x.StoreCode == sd.StoreCode).FirstOrDefault();
+                            if (is_lk == null)
+                            {
+                                var o_islk = new GtEiitst
+                                {
+                                    BusinessKey = sd.BusinessKey,
+                                    ItemCode = sd.ItemCode,
+                                    StoreCode = sd.StoreCode,
+                                    ActiveStatus = sd.ActiveStatus,
+                                    FormId = sd.FormId,
+                                    CreatedBy = sd.UserID,
+                                    CreatedOn = System.DateTime.Now,
+                                    CreatedTerminal = sd.TerminalID
+                                };
+                                db.GtEiitsts.Add(o_islk);
+                            }
+                            else
+                            {
+                                is_lk.ActiveStatus = sd.ActiveStatus;
+                                is_lk.ModifiedBy = sd.UserID;
+                                is_lk.ModifiedOn = System.DateTime.Now;
+                                is_lk.ModifiedTerminal = sd.TerminalID;
+                            }
+                            await db.SaveChangesAsync();
+                        }
+
+                        dbContext.Commit();
+                        return new DO_ReturnParameter() { Status = true, StatusCode = "S0001", Message = string.Format(_localizer[name: "S0001"]) };
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonRepository.GetValidationMessageFromException(ex));
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
+
+        #endregion Business Item Store Link
     }
 }
