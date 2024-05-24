@@ -85,6 +85,41 @@ namespace eSya.ManageInventory.WebAPI.Controllers
 
         #endregion Item Master
 
+        #region Business Item Store Link
 
+        /// <summary>
+        /// Getting  Store List, Business Key and Item Wise.
+        /// UI Reffered - Item Store Link
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetBusinessItemStoreLink(int BusinessKey, int ItemCode)
+        {
+            var i_Codes = await _ItemCodesRepository.GetBusinessItemStoreLink(BusinessKey, ItemCode);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Getting  Store Portfolio.
+        /// UI Reffered - Item Store Link
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetPortfolioStoreInfo(int BusinessKey, int StoreCode)
+        {
+            var i_Codes = await _ItemCodesRepository.GetPortfolioStoreInfo(BusinessKey, StoreCode);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Insert Business Item Store Link.
+        /// UI Reffered - Item Store Link
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> InsertOrUpdateBusinessItemStoreLink(List<DO_ItemStoreLink> ItemStoreLink)
+        {
+            var msg = await _ItemCodesRepository.InsertOrUpdateBusinessItemStoreLink(ItemStoreLink);
+            return Ok(msg);
+
+        }
+        #endregion Business Item Store Link
     }
 }
