@@ -162,5 +162,59 @@ namespace eSya.ManageInventory.DL.Repository
                 throw ex;
             }
         }
+
+        public async Task<List<DO_Services>> GetServiceClass()
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var bk = db.GtEssrcls
+                        .Where(w => w.ActiveStatus)
+                        .Join(db.GtEspascs.Where(K=> K.ParameterId == 6 && K.ActiveStatus ),
+                    a => new { a.ServiceClassId },
+                    b => new { b.ServiceClassId },
+                    (a, b) => new { a, b })
+                        .Select(r => new DO_Services
+                        {
+                            ServiceClassId = r.a.ServiceClassId,
+                            ServiceClassDesc = r.a.ServiceClassDesc
+                        }).ToListAsync();
+
+                    return await bk;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<DO_Services>> GetServices(int BusinessKey, int ServiceClassId)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var bk = db.GtEssrms
+                        .Where(w => w.ActiveStatus && w.ServiceClassId == ServiceClassId)
+                        .Join(db.GtEssrbls.Where(K => K.BusinessKey == BusinessKey && K.ActiveStatus),
+                    a => new { a.ServiceId },
+                    b => new { b.ServiceId },
+                    (a, b) => new { a, b })
+                        .Select(r => new DO_Services
+                        {
+                            ServiceId = r.a.ServiceId,
+                            ServiceDesc = r.a.ServiceDesc
+                        }).ToListAsync();
+
+                    return await bk;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

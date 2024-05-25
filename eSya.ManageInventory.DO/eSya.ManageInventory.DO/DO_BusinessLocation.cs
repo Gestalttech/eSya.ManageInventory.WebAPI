@@ -11,4 +11,13 @@ namespace eSya.ManageInventory.DO
         public int BusinessKey { get; set; }
         public string LocationDescription { get; set; }
     }
+
+    public class DO_Services
+    {
+        public int ServiceClassId { get; set; }
+        public string ServiceClassDesc { get; set; }
+
+        public int ServiceId { get; set; }
+        public string ServiceDesc { get; set; }
+    }
 }

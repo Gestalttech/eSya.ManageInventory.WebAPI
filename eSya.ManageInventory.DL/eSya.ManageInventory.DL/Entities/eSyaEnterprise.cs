@@ -32,6 +32,10 @@ namespace eSya.ManageInventory.DL.Entities
         public virtual DbSet<GtEiitst> GtEiitsts { get; set; } = null!;
         public virtual DbSet<GtEipait> GtEipaits { get; set; } = null!;
         public virtual DbSet<GtEskucd> GtEskucds { get; set; } = null!;
+        public virtual DbSet<GtEspasc> GtEspascs { get; set; } = null!;
+        public virtual DbSet<GtEssrbl> GtEssrbls { get; set; } = null!;
+        public virtual DbSet<GtEssrcl> GtEssrcls { get; set; } = null!;
+        public virtual DbSet<GtEssrm> GtEssrms { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -498,6 +502,143 @@ namespace eSya.ManageInventory.DL.Entities
                     .IsUnicode(false)
                     .HasColumnName("SKUType")
                     .IsFixedLength();
+            });
+
+            modelBuilder.Entity<GtEspasc>(entity =>
+            {
+                entity.HasKey(e => new { e.ServiceClassId, e.ParameterId });
+
+                entity.ToTable("GT_ESPASC");
+
+                entity.Property(e => e.ServiceClassId).HasColumnName("ServiceClassID");
+
+                entity.Property(e => e.ParameterId).HasColumnName("ParameterID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.ParmDesc)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ParmPerc).HasColumnType("numeric(5, 2)");
+
+                entity.Property(e => e.ParmValue).HasColumnType("numeric(18, 6)");
+
+                entity.HasOne(d => d.ServiceClass)
+                    .WithMany(p => p.GtEspascs)
+                    .HasForeignKey(d => d.ServiceClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GT_ESPASC_GT_ESPASC");
+            });
+
+            modelBuilder.Entity<GtEssrbl>(entity =>
+            {
+                entity.HasKey(e => new { e.BusinessKey, e.ServiceId });
+
+                entity.ToTable("GT_ESSRBL");
+
+                entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.ServiceCost).HasColumnType("numeric(18, 6)");
+            });
+
+            modelBuilder.Entity<GtEssrcl>(entity =>
+            {
+                entity.HasKey(e => e.ServiceClassId);
+
+                entity.ToTable("GT_ESSRCL");
+
+                entity.Property(e => e.ServiceClassId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ServiceClassID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.ParentId).HasColumnName("ParentID");
+
+                entity.Property(e => e.ServiceClassDesc).HasMaxLength(50);
+
+                entity.Property(e => e.ServiceGroupId).HasColumnName("ServiceGroupID");
+            });
+
+            modelBuilder.Entity<GtEssrm>(entity =>
+            {
+                entity.HasKey(e => e.ServiceId);
+
+                entity.ToTable("GT_ESSRMS");
+
+                entity.Property(e => e.ServiceId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ServiceID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.Gender)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.InternalServiceCode).HasMaxLength(15);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.ServiceClassId).HasColumnName("ServiceClassID");
+
+                entity.Property(e => e.ServiceDesc).HasMaxLength(75);
+
+                entity.Property(e => e.ServiceShortDesc)
+                    .HasMaxLength(6)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ServiceClass)
+                    .WithMany(p => p.GtEssrms)
+                    .HasForeignKey(d => d.ServiceClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_GT_ESSRMS_GT_ESSRCL");
             });
 
             OnModelCreatingPartial(modelBuilder);

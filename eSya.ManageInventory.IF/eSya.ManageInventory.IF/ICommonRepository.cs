@@ -15,5 +15,7 @@ namespace eSya.ManageInventory.IF
         Task<List<DO_ItemCategory>> GetItemCategory(int ItemGroup);
         Task<List<DO_ItemSubCategory>> GetItemSubCategory(int ItemCategory);
         Task<List<DO_BusinessLocation>> GetBusinessKey();
+        Task<List<DO_Services>> GetServiceClass();
+        Task<List<DO_Services>> GetServices(int BusinessKey, int ServiceClassId);
     }
 }

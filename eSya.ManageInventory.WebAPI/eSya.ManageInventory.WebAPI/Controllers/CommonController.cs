@@ -1,4 +1,5 @@
-﻿using eSya.ManageInventory.IF;
+﻿using eSya.ManageInventory.DL.Repository;
+using eSya.ManageInventory.IF;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -71,6 +72,28 @@ namespace eSya.ManageInventory.WebAPI.Controllers
         {
             var ds = await _commonRepository.GetBusinessKey();
             return Ok(ds);
+        }
+
+        /// <summary>
+        /// Get ServiceClass.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetServiceClass()
+        {
+            var ds = await _commonRepository.GetServiceClass();
+            return Ok(ds);
+        }
+
+        /// <summary>
+        /// Getting  Store List, Business Key and Item Wise.
+        /// UI Reffered - Item Store Link
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetServices(int BusinessKey, int ServiceClassId)
+        {
+            var i_Codes = await _commonRepository.GetServices(BusinessKey, ServiceClassId);
+            return Ok(i_Codes);
         }
     }
 }
