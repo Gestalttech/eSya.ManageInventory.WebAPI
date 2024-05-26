@@ -522,8 +522,8 @@ namespace eSya.ManageInventory.DL.Repository
                         StoreDesc = a.s.StoreDesc,
                         ActiveStatus = b == null ? false : b.ActiveStatus
                     }).ToListAsync();
-                    var Distinctstores = result.GroupBy(x => x.StoreCode).Select(y => y.First());
-                    return Distinctstores.ToList();
+                    var DistinctItemstores = result.GroupBy(x => x.StoreCode).Select(y => y.First());
+                    return DistinctItemstores.ToList();
                 }
             }
             catch (Exception ex)
@@ -628,5 +628,45 @@ namespace eSya.ManageInventory.DL.Repository
         }
 
         #endregion Business Item Store Link
+
+        #region Item Service Link
+        //public async Task<List<DO_ItemServiceLink>> GetServiceItemLinkInfo(int BusinessKey, int ServiceClass, int ServiceId)
+        //{
+        //    try
+        //    {
+        //        using (var db = new eSyaEnterprise())
+        //        {
+        //            var st = db.GtEskucds.Where(x => x.ActiveStatus)
+        //                .Select(r => new
+        //                {
+        //                    r.Skuid,
+        //                    r.Skutype,
+        //                    r.Skucode,
+        //                });
+
+        //            var result =  await st
+        //            .GroupJoin(db.GtEiitsts.Where(w => w.BusinessKey == BusinessKey && w.ItemCode == ServiceId),
+        //             s => s.StoreCode,
+        //             f => f.StoreCode,
+        //             (s, f) => new { s, f })
+        //            .SelectMany(z => z.f.DefaultIfEmpty(),
+        //             (a, b) => new DO_ItemStoreLink
+        //             {
+        //                 BusinessKey = BusinessKey,
+        //                 ItemCode = ServiceId,
+        //                 StoreCode = a.s.StoreCode,
+        //                 StoreDesc = a.s.StoreDesc,
+        //                 ActiveStatus = b == null ? false : b.ActiveStatus
+        //             }).ToListAsync();
+        //            var Distinctstores = result.GroupBy(x => x.StoreCode).Select(y => y.First());
+        //            return Distinctstores.ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        #endregion Item Service Link
     }
 }

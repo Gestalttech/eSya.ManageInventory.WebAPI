@@ -23,5 +23,9 @@ namespace eSya.ManageInventory.IF
         Task<List<DO_StoreBusinessLink>> GetPortfolioStoreInfo(int BusinessKey, int StoreCode);
         Task<DO_ReturnParameter> InsertOrUpdateBusinessItemStoreLink(List<DO_ItemStoreLink> obj);
         #endregion Business Item Store Link
+
+        #region Item Service Link
+        //Task<List<DO_ItemServiceLink>> GetServiceItemLinkInfo(int BusinessKey, int ServiceClass, int ServiceId);
+        #endregion Item Service Link
     }
 }

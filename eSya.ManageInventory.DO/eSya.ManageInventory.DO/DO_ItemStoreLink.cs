@@ -19,7 +19,6 @@ namespace eSya.ManageInventory.DO
         public string TerminalID { get; set; }
         public List<DO_ItemStoreLink>? lst_itemStoreLink { get; set; }
     }
-
     public class DO_StoreBusinessLink
     {
         public int BusinessKey { get; set; }
