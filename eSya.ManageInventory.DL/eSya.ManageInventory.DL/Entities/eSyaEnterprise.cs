@@ -31,6 +31,7 @@ namespace eSya.ManageInventory.DL.Entities
         public virtual DbSet<GtEiitsc> GtEiitscs { get; set; } = null!;
         public virtual DbSet<GtEiitst> GtEiitsts { get; set; } = null!;
         public virtual DbSet<GtEipait> GtEipaits { get; set; } = null!;
+        public virtual DbSet<GtEisrit> GtEisrits { get; set; } = null!;
         public virtual DbSet<GtEskucd> GtEskucds { get; set; } = null!;
         public virtual DbSet<GtEspasc> GtEspascs { get; set; } = null!;
         public virtual DbSet<GtEssrbl> GtEssrbls { get; set; } = null!;
@@ -470,6 +471,38 @@ namespace eSya.ManageInventory.DL.Entities
                     .HasForeignKey(d => d.ItemCode)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GT_EIPAIT_GT_EIITCD");
+            });
+
+            modelBuilder.Entity<GtEisrit>(entity =>
+            {
+                entity.HasKey(e => new { e.BusinessKey, e.ServiceClass, e.ServiceId, e.Skuid, e.Skutype });
+
+                entity.ToTable("GT_EISRIT");
+
+                entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+
+                entity.Property(e => e.Skuid).HasColumnName("SKUID");
+
+                entity.Property(e => e.Skutype)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("SKUType")
+                    .IsFixedLength();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.FormId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("FormID");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedTerminal).HasMaxLength(50);
+
+                entity.Property(e => e.Quantity).HasColumnType("numeric(18, 6)");
             });
 
             modelBuilder.Entity<GtEskucd>(entity =>

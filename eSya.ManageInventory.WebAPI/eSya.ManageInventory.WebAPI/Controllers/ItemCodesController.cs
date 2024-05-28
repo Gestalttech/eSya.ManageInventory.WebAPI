@@ -118,8 +118,31 @@ namespace eSya.ManageInventory.WebAPI.Controllers
         {
             var msg = await _ItemCodesRepository.InsertOrUpdateBusinessItemStoreLink(ItemStoreLink);
             return Ok(msg);
-
         }
         #endregion Business Item Store Link
+
+        #region Item Service Link
+        /// <summary>
+        /// Getting  Item List, Business Key and Service Wise.
+        /// UI Reffered - Item Store Link
+        /// </summary>
+        [HttpGet]
+        public async Task<IActionResult> GetServiceItemLinkInfo(int BusinessKey, int ServiceClass, int ServiceId)
+        {
+            var i_Codes = await _ItemCodesRepository.GetServiceItemLinkInfo(BusinessKey, ServiceClass, ServiceId);
+            return Ok(i_Codes);
+        }
+
+        /// <summary>
+        /// Insert Business Service Item Link.
+        /// UI Reffered - Item Store Link
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> InsertOrUpdateServiceItemLink(List<DO_ItemServiceLink> ServiceItemLink)
+        {
+            var msg = await _ItemCodesRepository.InsertOrUpdateServiceItemLink(ServiceItemLink);
+            return Ok(msg);
+        }
+        #endregion Item Service Link
     }
 }

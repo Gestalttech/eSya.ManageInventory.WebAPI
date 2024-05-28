@@ -630,43 +630,115 @@ namespace eSya.ManageInventory.DL.Repository
         #endregion Business Item Store Link
 
         #region Item Service Link
-        //public async Task<List<DO_ItemServiceLink>> GetServiceItemLinkInfo(int BusinessKey, int ServiceClass, int ServiceId)
-        //{
-        //    try
-        //    {
-        //        using (var db = new eSyaEnterprise())
-        //        {
-        //            var st = db.GtEskucds.Where(x => x.ActiveStatus)
-        //                .Select(r => new
-        //                {
-        //                    r.Skuid,
-        //                    r.Skutype,
-        //                    r.Skucode,
-        //                });
+        public async Task<List<DO_ItemServiceLink>> GetServiceItemLinkInfo(int BusinessKey, int ServiceClass, int ServiceId)
+        {
+            try
+            {
+                using (var db = new eSyaEnterprise())
+                {
+                    var st = db.GtEskucds.Where(x => x.ActiveStatus).
+                        GroupJoin(db.GtEiitcds.Where(y => y.ActiveStatus),
+                        p => p.Skucode,
+                        q => q.ItemCode,
+                        (p, q) => new { p, q})
+                        .SelectMany(x => x.q.DefaultIfEmpty(),
+                        (a, b) => new
+                        {
+                            a.p.Skuid,
+                            a.p.Skutype,
+                            a.p.Skucode,
+                            b.ItemDescription
+                        });
 
-        //            var result =  await st
-        //            .GroupJoin(db.GtEiitsts.Where(w => w.BusinessKey == BusinessKey && w.ItemCode == ServiceId),
-        //             s => s.StoreCode,
-        //             f => f.StoreCode,
-        //             (s, f) => new { s, f })
-        //            .SelectMany(z => z.f.DefaultIfEmpty(),
-        //             (a, b) => new DO_ItemStoreLink
-        //             {
-        //                 BusinessKey = BusinessKey,
-        //                 ItemCode = ServiceId,
-        //                 StoreCode = a.s.StoreCode,
-        //                 StoreDesc = a.s.StoreDesc,
-        //                 ActiveStatus = b == null ? false : b.ActiveStatus
-        //             }).ToListAsync();
-        //            var Distinctstores = result.GroupBy(x => x.StoreCode).Select(y => y.First());
-        //            return Distinctstores.ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                    var result = await st
+                    .GroupJoin(db.GtEisrits.Where(w => w.BusinessKey == BusinessKey && w.ServiceClass == ServiceClass && w.ServiceId == ServiceId ),
+                     s => s.Skuid,
+                     f => f.Skuid,
+                     (s, f) => new { s, f })
+                    .SelectMany(z => z.f.DefaultIfEmpty(),
+                     (a, b) => new DO_ItemServiceLink
+                     {
+                         BusinessKey = BusinessKey,
+                         ServiceClass = ServiceClass,
+                         ServiceID = ServiceId,
+                         SKUID = a.s.Skuid,
+                         ItemDescription = a.s.ItemDescription,
+                         Quantity = b == null ? 0 : b.Quantity,
+                         ActiveStatus = b == null ? false : b.ActiveStatus
+                     }).ToListAsync();
+                    var Distinctstores = result.GroupBy(x => x.SKUID).Select(y => y.First());
+                    return Distinctstores.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<DO_ReturnParameter> InsertOrUpdateServiceItemLink(List<DO_ItemServiceLink> obj)
+        {
+            using (var db = new eSyaEnterprise())
+            {
+                using (var dbContext = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var is_ItemSrviceLink = obj.Where(w => !String.IsNullOrEmpty(w.SKUID.ToString())).Count();
+                        if (is_ItemSrviceLink <= 0)
+                        {
+                            return new DO_ReturnParameter() { Status = false, StatusCode = "W0073", Message = string.Format(_localizer[name: "W0073"]) };
+                        }
+
+                        foreach (var sd in obj.Where(w => !String.IsNullOrEmpty(w.SKUID.ToString()) && w.Quantity>0))
+                        {
+                            GtEisrit is_lk = db.GtEisrits.Where(x => x.BusinessKey == sd.BusinessKey
+                                            && x.ServiceClass == sd.ServiceID && x.ServiceId == sd.ServiceID && x.Skuid == sd.SKUID).FirstOrDefault();
+                            if (is_lk == null)
+                            {
+                                var o_islk = new GtEisrit
+                                {
+                                    BusinessKey = sd.BusinessKey,
+                                    ServiceClass = sd.ServiceClass,
+                                    ServiceId = sd.ServiceID,
+                                    Skuid = sd.SKUID,
+                                    Skutype = sd.SKUType,
+                                    Quantity = sd.Quantity,
+                                    ActiveStatus = sd.ActiveStatus,
+                                    FormId = sd.FormId,
+                                    CreatedBy = sd.UserID,
+                                    CreatedOn = System.DateTime.Now,
+                                    CreatedTerminal = sd.TerminalID
+                                };
+                                db.GtEisrits.Add(o_islk);
+                            }
+                            else
+                            {
+                                is_lk.Quantity = sd.Quantity;
+                                is_lk.ActiveStatus = sd.ActiveStatus;
+                                is_lk.ModifiedBy = sd.UserID;
+                                is_lk.ModifiedOn = System.DateTime.Now;
+                                is_lk.ModifiedTerminal = sd.TerminalID;
+                            }
+                            await db.SaveChangesAsync();
+                        }
+
+                        dbContext.Commit();
+                        return new DO_ReturnParameter() { Status = true, StatusCode = "S0001", Message = string.Format(_localizer[name: "S0001"]) };
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        dbContext.Rollback();
+                        throw new Exception(CommonRepository.GetValidationMessageFromException(ex));
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContext.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+        }
         #endregion Item Service Link
     }
 }

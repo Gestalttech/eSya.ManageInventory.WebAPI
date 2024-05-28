@@ -14,7 +14,10 @@ namespace eSya.ManageInventory.DO
         public int SKUID { get; set; }
         public string? SKUType { get; set; }
         public string? ItemDescription { get; set; }
-        public double Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public bool ActiveStatus { get; set; }
+        public string FormId { get; set; }
+        public int UserID { get; set; }
+        public string TerminalID { get; set; }
     }
 }
