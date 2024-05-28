@@ -662,6 +662,7 @@ namespace eSya.ManageInventory.DL.Repository
                          ServiceClass = ServiceClass,
                          ServiceID = ServiceId,
                          SKUID = a.s.Skuid,
+                         SKUType = a.s.Skutype,
                          ItemDescription = a.s.ItemDescription,
                          Quantity = b == null ? 0 : b.Quantity,
                          ActiveStatus = b == null ? false : b.ActiveStatus
@@ -690,10 +691,21 @@ namespace eSya.ManageInventory.DL.Repository
                             return new DO_ReturnParameter() { Status = false, StatusCode = "W0073", Message = string.Format(_localizer[name: "W0073"]) };
                         }
 
-                        foreach (var sd in obj.Where(w => !String.IsNullOrEmpty(w.SKUID.ToString()) && w.Quantity>0))
+                        foreach (var sd in obj.Where(w => !String.IsNullOrEmpty(w.SKUID.ToString())))
                         {
                             GtEisrit is_lk = db.GtEisrits.Where(x => x.BusinessKey == sd.BusinessKey
-                                            && x.ServiceClass == sd.ServiceID && x.ServiceId == sd.ServiceID && x.Skuid == sd.SKUID).FirstOrDefault();
+                                            && x.ServiceClass == sd.ServiceClass && x.ServiceId == sd.ServiceID && x.Skuid == sd.SKUID).FirstOrDefault();
+                            if (is_lk != null)
+                            {
+                                db.GtEisrits.Remove(is_lk);
+                                db.SaveChanges();
+                            }
+                        }
+
+                        foreach (var sd in obj.Where(w => !String.IsNullOrEmpty(w.SKUID.ToString()) && w.Quantity > 0))
+                        {
+                            GtEisrit is_lk = db.GtEisrits.Where(x => x.BusinessKey == sd.BusinessKey
+                                            && x.ServiceClass == sd.ServiceClass && x.ServiceId == sd.ServiceID && x.Skuid == sd.SKUID).FirstOrDefault();
                             if (is_lk == null)
                             {
                                 var o_islk = new GtEisrit
@@ -715,7 +727,7 @@ namespace eSya.ManageInventory.DL.Repository
                             else
                             {
                                 is_lk.Quantity = sd.Quantity;
-                                is_lk.ActiveStatus = sd.ActiveStatus;
+                                //is_lk.ActiveStatus = sd.ActiveStatus;
                                 is_lk.ModifiedBy = sd.UserID;
                                 is_lk.ModifiedOn = System.DateTime.Now;
                                 is_lk.ModifiedTerminal = sd.TerminalID;

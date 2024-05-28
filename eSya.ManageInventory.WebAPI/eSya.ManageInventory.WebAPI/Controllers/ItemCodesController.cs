@@ -124,7 +124,7 @@ namespace eSya.ManageInventory.WebAPI.Controllers
         #region Item Service Link
         /// <summary>
         /// Getting  Item List, Business Key and Service Wise.
-        /// UI Reffered - Item Store Link
+        /// UI Reffered - Item Service Link
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetServiceItemLinkInfo(int BusinessKey, int ServiceClass, int ServiceId)
@@ -135,12 +135,12 @@ namespace eSya.ManageInventory.WebAPI.Controllers
 
         /// <summary>
         /// Insert Business Service Item Link.
-        /// UI Reffered - Item Store Link
+        /// UI Reffered - Item Service Link
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> InsertOrUpdateServiceItemLink(List<DO_ItemServiceLink> ServiceItemLink)
+        public async Task<IActionResult> InsertOrUpdateServiceItemLink(List<DO_ItemServiceLink> ItemServiceLink)
         {
-            var msg = await _ItemCodesRepository.InsertOrUpdateServiceItemLink(ServiceItemLink);
+            var msg = await _ItemCodesRepository.InsertOrUpdateServiceItemLink(ItemServiceLink);
             return Ok(msg);
         }
         #endregion Item Service Link
