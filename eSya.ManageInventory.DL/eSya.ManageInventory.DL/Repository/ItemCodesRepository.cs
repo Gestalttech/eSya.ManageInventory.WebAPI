@@ -636,21 +636,26 @@ namespace eSya.ManageInventory.DL.Repository
             {
                 using (var db = new eSyaEnterprise())
                 {
-                    var st = db.GtEskucds.Where(x => x.ActiveStatus).
-                        GroupJoin(db.GtEiitcds.Where(y => y.ActiveStatus),
-                        p => p.Skucode,
+                    var bk = db.GtEskucds
+                        .Where(w => w.ActiveStatus && w.Skutype == "M")
+                        .Join(db.GtEipaits.Where(K => K.ParameterId == 15 && K.ActiveStatus),
+                    a => a.Skucode,
+                    b => b.ItemCode,
+                    (a, b) => new { a, b })
+                        .GroupJoin(db.GtEiitcds.Where(y => y.ActiveStatus),
+                        p => p.a.Skucode,
                         q => q.ItemCode,
-                        (p, q) => new { p, q})
+                        (p, q) => new { p, q })
                         .SelectMany(x => x.q.DefaultIfEmpty(),
                         (a, b) => new
                         {
-                            a.p.Skuid,
-                            a.p.Skutype,
-                            a.p.Skucode,
+                            a.p.a.Skuid,
+                            a.p.a.Skutype,
+                            a.p.a.Skucode,
                             b.ItemDescription
                         });
 
-                    var result = await st
+                    var result = await bk
                     .GroupJoin(db.GtEisrits.Where(w => w.BusinessKey == BusinessKey && w.ServiceClass == ServiceClass && w.ServiceId == ServiceId ),
                      s => s.Skuid,
                      f => f.Skuid,

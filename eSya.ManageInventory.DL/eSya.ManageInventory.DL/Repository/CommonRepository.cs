@@ -139,7 +139,6 @@ namespace eSya.ManageInventory.DL.Repository
                 throw ex;
             }
         }
-
         public async Task<List<DO_BusinessLocation>> GetBusinessKey()
         {
             try
@@ -162,7 +161,6 @@ namespace eSya.ManageInventory.DL.Repository
                 throw ex;
             }
         }
-
         public async Task<List<DO_Services>> GetServiceClass()
         {
             try
@@ -189,7 +187,6 @@ namespace eSya.ManageInventory.DL.Repository
                 throw ex;
             }
         }
-
         public async Task<List<DO_Services>> GetServices(int BusinessKey, int ServiceClassId)
         {
             try
