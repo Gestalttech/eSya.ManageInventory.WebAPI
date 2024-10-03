@@ -11,6 +11,7 @@ namespace eSya.ManageInventory.DL.Entities
         public decimal OriginalBudgetAmount { get; set; }
         public decimal RevisedBudgetAmount { get; set; }
         public decimal ComittmentAmount { get; set; }
+        public bool Fastatus { get; set; }
         public bool ActiveStatus { get; set; }
         public string FormId { get; set; } = null!;
         public int CreatedBy { get; set; }

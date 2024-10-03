@@ -656,7 +656,7 @@ namespace eSya.ManageInventory.DL.Repository
                         });
 
                     var result = await bk
-                    .GroupJoin(db.GtEisrits.Where(w => w.BusinessKey == BusinessKey && w.ServiceClass == ServiceClass && w.ServiceId == ServiceId ),
+                    .GroupJoin(db.GtEisrits.Where(w => w.BusinessKey == BusinessKey && w.ServiceClass == ServiceClass && w.ServiceId == ServiceId),
                      s => s.Skuid,
                      f => f.Skuid,
                      (s, f) => new { s, f })

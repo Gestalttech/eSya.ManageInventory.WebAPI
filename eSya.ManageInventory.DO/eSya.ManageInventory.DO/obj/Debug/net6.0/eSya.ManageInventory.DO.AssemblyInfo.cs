@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eSya.ManageInventory.DO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac22368dac46b78b722dddbb58b97f8821540f45")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e77cc98c552b357032a06dfe321dbcf41bee4e5b")]
 [assembly: System.Reflection.AssemblyProductAttribute("eSya.ManageInventory.DO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eSya.ManageInventory.DO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
